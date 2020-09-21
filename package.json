@@ -1,0 +1,20 @@
+{
+  "name": "compare-images",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "a module to compare a list of images",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "romaindurand89@gmail.com (twitter @romaindurand)",
+  "license": "ISC",
+  "dependencies": {
+    "async-each": "^1.0.3",
+    "image-equal": "^4.3.1",
+    "image-pixels": "^2.2.2",
+    "p-each-series": "^2.1.0",
+    "puppeteer": "^5.3.0",
+    "save-file": "^2.3.1"
+  }
+}
