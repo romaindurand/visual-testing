@@ -5,12 +5,13 @@
   "description": "a module to compare a list of images",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "demo": "node tests"
   },
   "author": "romaindurand89@gmail.com (twitter @romaindurand)",
   "license": "ISC",
   "dependencies": {
     "async-each": "^1.0.3",
+    "chalk": "^4.1.0",
     "image-equal": "^4.3.1",
     "image-pixels": "^2.2.2",
     "p-each-series": "^2.1.0",
