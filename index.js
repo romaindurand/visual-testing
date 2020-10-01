@@ -57,7 +57,8 @@ export default async function startTests ({
     interactive,
   })
   // compares old and new screenshots
-  compareImages(screenshots.oldPath, screenshots.newPath, screenshots.diffPath)
+  console.log({screenshots})
+  compareImages(screenshots.oldPath, screenshots.newPath, screenshots.diffPath, interactive)
   // list errors (interactive or log + error code)
 }
 
@@ -108,7 +109,7 @@ async function initSavePath (savePath, interactive) {
       const clearFiles = await inquirer.prompt({
         type: 'confirm',
         message: 'Would you like to remove these files ?',
-        name: 'plop'
+        name: 'cleanSavePath'
       })
 
       if (!clearFiles) return
@@ -129,6 +130,7 @@ async function initDiffPath (diffPath, interactive) {
   try {
     const files = await fs.readdir(diffPath)
     if (files.length === 0) return
+
 
   } catch {
     await fs.mkdir(diffPath)
@@ -177,8 +179,8 @@ function exitWithError(message, values) {
   process.exit(1)
 }
 
-export async function compareImages (path1, path2, pathDiff, options) {
-  await initDiffPath(diffPath, interactive)
+export async function compareImages (path1, path2, pathDiff, interactive) {
+  await initDiffPath(pathDiff, interactive)
 
   const [imageFileNames1, imageFileNames2] = await Promise.all([
     fs.readdir(path1),
@@ -193,7 +195,7 @@ export async function compareImages (path1, path2, pathDiff, options) {
       console.log(`Could not find ${imageFileName1} in ${path2}`)
       return
     }
-    console.log('loading 2 images')
+
     const imagePath1 = path.join(path1, imageFileName1)
     const imagePath2 = path.join(path2, imageFileName2)
     const [image1, image2] = await loadImage.all([imagePath1, imagePath2])
