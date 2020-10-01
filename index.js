@@ -5,6 +5,7 @@ import imageEqual from 'image-equal'
 import each from 'p-each-series'
 import puppeteer from 'puppeteer'
 import chalk from 'chalk'
+import inquirer from 'inquirer'
 
 /**
  * Take screenshots and compare them to the previous version
@@ -48,8 +49,15 @@ export default async function startTests ({
   })
 
   // take screenshots => new
-  await takeScreenshots({ resolutions, urls, waitForOptions, savePath: screenshots.newPath })
+  await takeScreenshots({
+    resolutions,
+    urls,
+    waitForOptions,
+    savePath: screenshots.newPath,
+    interactive,
+  })
   // compares old and new screenshots
+  compareImages(screenshots.oldPath, screenshots.newPath, screenshots.diffPath)
   // list errors (interactive or log + error code)
 }
 
@@ -89,17 +97,49 @@ function normalizeParameters (parameters) {
   return normalizedParameters
 }
 
-async function takeScreenshots ({ resolutions, urls, waitForOptions, savePath }) {
+async function initSavePath (savePath, interactive) {
   try {
     const filesInSavePath = await fs.readdir(savePath)
-    if (filesInSavePath.length) {
-      // TODO: interactive, list files and ask to clean
-      exitWithError(`Folder ${savePath} is not empty`)
+    if (!filesInSavePath.length) return
+    // TODO: interactive, list files and ask to clean
+    const message = `Folder ${savePath} is not empty`
+    if (interactive) { // TODO: invert condition
+      console.log(message, filesInSavePath)
+      const clearFiles = await inquirer.prompt({
+        type: 'confirm',
+        message: 'Would you like to remove these files ?',
+        name: 'plop'
+      })
+
+      if (!clearFiles) return
+      await each(filesInSavePath, async filename => {
+        const filePath = path.join(savePath, filename)
+        await fs.unlink(filePath)
+        console.log(`Removed ${filePath}`)
+      })
+      return
     }
-  } catch (error) {
-    // TODO: interactive, ask to create dir
-    exitWithError(`Folder ${savePath} does not exists`)
+    exitWithError(message)
+  } catch {
+    await fs.mkdir(savePath)
   }
+}
+
+async function initDiffPath (diffPath, interactive) {
+  try {
+    const files = await fs.readdir(diffPath)
+    if (files.length === 0) return
+
+  } catch {
+    await fs.mkdir(diffPath)
+  }
+
+}
+
+async function takeScreenshots ({ resolutions, urls, waitForOptions, savePath, interactive }) {
+
+  await initSavePath(savePath, interactive)
+
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
@@ -138,24 +178,26 @@ function exitWithError(message, values) {
 }
 
 export async function compareImages (path1, path2, pathDiff, options) {
-  const [imageFileName1, imageFileName2] = await Promise.all([
+  await initDiffPath(diffPath, interactive)
+
+  const [imageFileNames1, imageFileNames2] = await Promise.all([
     fs.readdir(path1),
     fs.readdir(path2)
   ])
 
-  
-  console.log({ imagesPath1: imageFileName1, imagesPath2: imageFileName2 })
-
-  await each(imageFileName1, async (imagePath1, index) => {
-    const imageFileName1 = path.parse(imagePath1).base
-    const imagePath2 = imageFileName2.find(imagePath => {
-      return path.parse(imagePath).base === imageFileName1
+  await each(imageFileNames1, async (imageFileName1, index) => {
+    const imageFileName2 = imageFileNames2.find(fileName => {
+      return path.parse(fileName).base === imageFileName1
     })
-    if (!imagePath2) {
-      console.log(`Could not find ${imageFileName1} in path2`)
+    if (!imageFileName2) {
+      console.log(`Could not find ${imageFileName1} in ${path2}`)
       return
     }
+    console.log('loading 2 images')
+    const imagePath1 = path.join(path1, imageFileName1)
+    const imagePath2 = path.join(path2, imageFileName2)
     const [image1, image2] = await loadImage.all([imagePath1, imagePath2])
-    console.log({ image1, image2 })
+
+    imageEqual(image1, image2, path.join(pathDiff, imageFileName1))
   })
 }
