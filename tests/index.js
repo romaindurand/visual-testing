@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
     const diffPath = path.join(__dirname, './images/diff')
 
     await startTests({
-      resolutions: ['100x500', '450x200', '500x500', '800x600'],
+      resolutions: { mobile: 400, tablet: 500, desktop: 800 },
       urls: { google: 'https://google.com' },
       screenshots: { oldPath, newPath, diffPath },
       interactive: true
