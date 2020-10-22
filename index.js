@@ -31,5 +31,5 @@ export default async function startTests ({
   await compareImages(screenshots.oldPath, screenshots.newPath, screenshots.diffPath, interactive)
 
   // list errors (interactive or log + error code)
-  await displayDiffs(screenshots.diffPath, interactive)
+  await displayDiffs(screenshots.diffPath, interactive, screenshots.oldPath, screenshots.newPath)
 }
