@@ -7,7 +7,7 @@
   "scripts": {
     "demo": "node tests"
   },
-  "author": "romaindurand89@gmail.com (twitter @romaindurand)",
+  "author": "@romaindurand",
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",
@@ -24,6 +24,8 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "finalhandler": "^1.1.2",
+    "serve-static": "^1.14.1"
   }
 }
