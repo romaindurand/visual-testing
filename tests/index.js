@@ -14,11 +14,8 @@ var serve = serveStatic(path.join(__dirname, 'public'), { index: 'index.html' })
   const server = http.createServer((req, res) => {
     serve(req, res, finalhandler(req, res))
   }).listen(5000)
-  try {
-    const oldPath = path.join(__dirname, './images/old')
-    const newPath = path.join(__dirname, './images/new')
-    const diffPath = path.join(__dirname, './images/diff')
 
+  try {
     await startTests({
       resolutions: { mobile: 350, tablet: 500, desktop: 800 },
       urls: [
@@ -35,7 +32,7 @@ var serve = serveStatic(path.join(__dirname, 'public'), { index: 'index.html' })
           }
         }
       ],
-      screenshots: { oldPath, newPath, diffPath },
+      screenshots: path.join(__dirname, './images'),
       interactive: true
     })
   } catch (ex) {

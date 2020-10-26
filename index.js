@@ -1,3 +1,4 @@
+import path from 'path'
 import compareImages from './lib/compareImages.js'
 import displayDiffs from './lib/displayDiffs.js'
 import normalizeParameters from './lib/normalizeParameters.js'
@@ -11,25 +12,24 @@ import takeScreenshots from './lib/takeScreenshots.js'
 export default async function startTests ({
   resolutions,
   urls,
-  screenshots, // TODO: find better API or names for screenshots paths
+  screenshots,
   interactive,
   waitForOptions
 }) {
-  // check inputs
-  ;({
+  ({
     resolutions, urls, screenshots, interactive, waitForOptions
   } = normalizeParameters({
     resolutions, urls, screenshots, interactive, waitForOptions
   }))
 
-  // take screenshots => new
+  const tempPath = path.join(screenshots, 'temp')
+  const diffPath = path.join(screenshots, 'diff')
+
   await takeScreenshots({
-    resolutions, urls, waitForOptions, savePath: screenshots.newPath, interactive
+    resolutions, urls, waitForOptions, savePath: tempPath, interactive
   })
 
-  // compares old and new screenshots, create diff
-  await compareImages(screenshots.oldPath, screenshots.newPath, screenshots.diffPath, interactive)
+  await compareImages(screenshots, tempPath, diffPath, interactive)
 
-  // list errors (interactive or log + error code)
-  await displayDiffs(screenshots.diffPath, interactive, screenshots.oldPath, screenshots.newPath)
+  await displayDiffs(diffPath, interactive, screenshots, tempPath)
 }
