@@ -1,0 +1,37 @@
+{
+  "name": "svelte-app",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "demo": "start-server-and-test storybook http://localhost:6006 visual-testing",
+    "ci": "start-server-and-test storybook http://localhost:6006 \"visual-testing --ci\"",
+    "storybook": "start-storybook -p 6006 --ci"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@storybook/addon-actions": "^6.4.10",
+    "@storybook/addon-essentials": "^6.4.10",
+    "@storybook/addon-links": "^6.4.10",
+    "@storybook/addon-svelte-csf": "^1.1.0",
+    "@storybook/svelte": "^6.4.10",
+    "babel-loader": "^8.2.3",
+    "start-server-and-test": "^1.14.0",
+    "svelte": "^3.45.0",
+    "svelte-loader": "^3.1.2"
+  },
+  "dependencies": {
+    "visual-testing": "file:.."
+  },
+  "visual-testing": {
+    "devices": [
+      "laptop",
+      "iphone7"
+    ],
+    "stories": {
+      "Delay/foo/bar/Anim": {
+        "delay": 1000
+      }
+    }
+  }
+}

@@ -1,65 +1,33 @@
 # visual-testing
 
-Automates your visual regressions tests for your components or pages by comparing screenshots.
+Automates visual regressions tests for storybook by comparing screenshots.
 
-___
+---
+
 ## Description
-Components/pages are listed using an url. They are captured in every given resolution.
 
-You can use a storybook (dev mode or static build) preview url.
+Storybook must be running beforehand. Using [start-server-and-test](https://www.npmjs.com/package/start-server-and-test) allows for an easy CI integration (see `./demo/package.json`).
 
 ---
-## Usage
 
-```js
-import startTests from 'visual-testing'
+## CLI
 
-startTests({
-  resolutions: {mobile: 400, tablet: 500, desktop: 800},
-  urls: { google: 'https://google.com' },
-  screenshots: { oldPath, newPath, diffPath },
-  interactive: true
-})
-```
+- `--ci` Use for continuous integration. Disable user interaction.
+- `--verbose` Display loaded configuration
+
 ---
-## API
 
-`startTests` is a function. It returns a promise that resolves when tests are done.
+## Configuration
 
-### resolutions
-A list of device width (in px) used to capture each url.
+Configuration is done in your `package.json`.
 
-Default: `[800]`
+Create a `visual-testing` object.
 
-Example:
-```js
-[400, 800, 1280]
-```
+See `./demo/package.json` for usage example.
 
-An object can be used to give each device width an alias.
+- `devices` An array of device names. Each component will generate a screenshot for each device. (available devices: `laptop`, `iphone7`)
+- `stories` An object to configure stories individually. Use story name as a key
 
-Example: 
-```js
-{
-  mobile: 400,
-  desktop: 1280
-}
-```
+### Stories options
 
-### urls
-An object to list all urls to be tested. Keys are used as aliases.
-
-Default: `{}`
-
-Example:
-```js
-{
-  HomepageTitle: 'http://localhost:8080/HomepageTitle.html',
-  Footer: 'http://localhost:8080/Footer.html',
-  ...
-}
-```
-
-### screenshots
-
-### interactive
+- `delay` Number (in miliseconds). Wait a specified delay before taking screenshot. Use for components with an enter animation.
