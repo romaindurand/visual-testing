@@ -32,10 +32,6 @@ export default async function startTests() {
   console.log(chalk.blue('Chrome instance closed'))
 }
 
-const defaultConfig = {
-  devices: ['laptop'],
-}
-
 async function getStories(page, options = {}) {
   try {
     await page.goto('http://localhost:6006/iframe.html')
