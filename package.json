@@ -1,7 +1,7 @@
 {
   "name": "visual-testing",
   "type": "module",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Test visual regressions from a list of urls and device-width",
   "main": "index.js",
   "bin": {
@@ -20,6 +20,7 @@
     "inquirer": "^7.3.3",
     "open": "^7.3.0",
     "p-each-series": "^2.1.0",
+    "p-map": "^5.3.0",
     "progress": "^2.0.3",
     "puppeteer": "^5.3.0"
   }

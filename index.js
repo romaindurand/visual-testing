@@ -13,40 +13,57 @@ export default async function startTests() {
   const page = await browser.newPage()
   const tempPath = path.join('.visual-testing', 'temp')
   const diffPath = path.join('.visual-testing', 'diff')
-  const currentPath = path.join('.visual-testing', 'current')
+  const referencePath = path.join('.visual-testing', 'reference')
   const config = await getConfig()
   const interactive = isInteractive()
   verboseLog({ config })
 
-  const stories = await getStories(page, config.stories)
+  const stories = await getStories(page, config)
   await takeScreenshots({
     devices: config.devices,
     stories,
     savePath: tempPath,
     interactive,
-    page,
+    browser,
+    delay: config.delay,
   })
-  await compareImages(currentPath, tempPath, diffPath, interactive)
-  await displayDiffs(diffPath, interactive, currentPath, tempPath)
+  await compareImages(referencePath, tempPath, diffPath, interactive)
+  await displayDiffs(diffPath, interactive, referencePath, tempPath)
   await browser.close()
   console.log(chalk.blue('Chrome instance closed'))
 }
 
-async function getStories(page, options = {}) {
+async function getStories(page, config) {
+  const options = config.stories
+  const ignoredStories = config.ignored || []
   try {
     await page.goto('http://localhost:6006/iframe.html')
   } catch {
     console.log(chalk.red('Storybook not running'))
     process.exit(1)
   }
-
   const stories = await page.evaluate(() => {
-    return Object.values(
-      window.__STORYBOOK_CLIENT_API__.storyStore.storyIndex.stories
-    )
+    let stories
+    const sb_6_4_10 =
+      window?.__STORYBOOK_CLIENT_API__?.storyStore?.storyIndex?.stories
+    const sb_6_3_12 = window?.__STORYBOOK_CLIENT_API__?._storyStore?._stories
+    if (sb_6_4_10) {
+      stories = Object.values(sb_6_4_10)
+    } else if (sb_6_3_12) {
+      stories = Object.values(sb_6_3_12).map((story) => {
+        return {
+          title: `${story.kind}/${story.name}`,
+          id: story.id,
+        }
+      })
+    }
+
+    return Object.values(stories)
   })
 
-  return stories.map(normalizeStory(options))
+  return stories
+    .filter((s) => !ignoredStories.includes(s.title))
+    .map(normalizeStory(options))
 }
 
 function normalizeStory(options) {

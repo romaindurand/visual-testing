@@ -8,6 +8,7 @@ specifiers:
   inquirer: ^7.3.3
   open: ^7.3.0
   p-each-series: ^2.1.0
+  p-map: ^5.3.0
   progress: ^2.0.3
   puppeteer: ^5.3.0
 
@@ -19,6 +20,7 @@ dependencies:
   inquirer: 7.3.3
   open: 7.4.2
   p-each-series: 2.2.0
+  p-map: 5.3.0
   progress: 2.0.3
   puppeteer: 5.5.0
 
@@ -40,6 +42,14 @@ packages:
   /agent-base/5.1.1:
     resolution: {integrity: sha512-TMeqbNl2fMW0nMjTEPOwe3J/PRFP4vqeoNuQMG0HlMrtm5QxKqdvAkZ1pRBQ/ulIyDD5Yq0nJ7YbdD8ey0TO3g==}
     engines: {node: '>= 6.0.0'}
+    dev: false
+
+  /aggregate-error/4.0.0:
+    resolution: {integrity: sha512-8DGp7zUt1E9k0NE2q4jlXHk+V3ORErmwolEdRz9iV+LKJ40WhMHh92cxAvhqV2I+zEn/gotIoqoMs0NjF3xofg==}
+    engines: {node: '>=12'}
+    dependencies:
+      clean-stack: 4.1.0
+      indent-string: 5.0.0
     dev: false
 
   /ajv/6.12.6:
@@ -210,6 +220,13 @@ packages:
     resolution: {integrity: sha1-ZqDmQBGBbjcZaCj9yMjBRzEshjQ=}
     dev: false
 
+  /clean-stack/4.1.0:
+    resolution: {integrity: sha512-dxXQYI7mfQVcaF12s6sjNFoZ6ZPDQuBBLp3QJ5156k9EvUFClUoZ11fo8HnLQO241DDVntHEug8MOuFO5PSfRg==}
+    engines: {node: '>=12'}
+    dependencies:
+      escape-string-regexp: 5.0.0
+    dev: false
+
   /cli-cursor/3.1.0:
     resolution: {integrity: sha512-I/zHAwsKf9FqGoXM4WWRACob9+SNukZTd94DWF57E4toouRulbCxcUh6RKUEOQlYTHJnzkPMySvPNaaSLNfLZw==}
     engines: {node: '>=8'}
@@ -355,6 +372,11 @@ packages:
   /escape-string-regexp/1.0.5:
     resolution: {integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=}
     engines: {node: '>=0.8.0'}
+    dev: false
+
+  /escape-string-regexp/5.0.0:
+    resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
+    engines: {node: '>=12'}
     dev: false
 
   /execa/0.4.0:
@@ -689,6 +711,11 @@ packages:
       file-type: 10.11.0
     dev: false
 
+  /indent-string/5.0.0:
+    resolution: {integrity: sha512-m6FAo/spmsW2Ab2fU35JTYwtOKa2yAwXSwgjSv1TJzh4Mh7mC3lzAOVLBprb72XsTrgkEIsl7YrFNAiDiRhIGg==}
+    engines: {node: '>=12'}
+    dev: false
+
   /inflight/1.0.6:
     resolution: {integrity: sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=}
     dependencies:
@@ -1018,6 +1045,13 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       p-limit: 2.3.0
+    dev: false
+
+  /p-map/5.3.0:
+    resolution: {integrity: sha512-SRbIQFoLYNezHkqZslqeg963HYUtqOrfMCxjNrFOpJ19WTYuq26rQoOXeX8QQiMLUlLqdYV/7PuDsdYJ7hLE1w==}
+    engines: {node: '>=12'}
+    dependencies:
+      aggregate-error: 4.0.0
     dev: false
 
   /p-try/2.2.0:
