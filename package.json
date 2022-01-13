@@ -1,7 +1,7 @@
 {
   "name": "visual-testing",
   "type": "module",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Test visual regressions from a list of urls and device-width",
   "main": "index.js",
   "bin": {
