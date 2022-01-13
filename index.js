@@ -19,6 +19,7 @@ export default async function startTests() {
   verboseLog({ config })
 
   const stories = await getStories(page, config)
+  verboseLog({ stories })
   await takeScreenshots({
     devices: config.devices,
     stories,
@@ -62,11 +63,15 @@ async function getStories(page, config) {
   })
 
   return stories
-    .filter((s) => !ignoredStories.includes(s.title))
+    .filter((s) => {
+      return ignoredStories.every((ignorePattern) => {
+        return !s.title.startsWith(ignorePattern)
+      })
+    })
     .map(normalizeStory(options))
 }
 
-function normalizeStory(options) {
+function normalizeStory(options = {}) {
   return function normalize(story) {
     const name = story.title
     const storyOptions = options[name] || null

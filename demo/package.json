@@ -32,6 +32,9 @@
       "Delay/foo/bar/Anim": {
         "delay": 1000
       }
-    }
+    },
+    "ignored": [
+      "Documentation"
+    ]
   }
 }
