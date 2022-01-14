@@ -9,7 +9,10 @@ import { getConfig, isInteractive, verboseLog } from './lib/utils.js'
 
 export default async function startTests() {
   await handleGitIgnore()
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox'],
+  })
   const page = await browser.newPage()
   const tempPath = path.join('.visual-testing', 'temp')
   const diffPath = path.join('.visual-testing', 'diff')
