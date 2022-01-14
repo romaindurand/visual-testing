@@ -52,7 +52,12 @@ async function getStories(page, config) {
       window?.__STORYBOOK_CLIENT_API__?.storyStore?.storyIndex?.stories
     const sb_6_3_12 = window?.__STORYBOOK_CLIENT_API__?._storyStore?._stories
     if (sb_6_4_10) {
-      stories = Object.values(sb_6_4_10)
+      stories = Object.values(sb_6_4_10).map((story) => {
+        return {
+          title: `${story.title}/${story.name}`,
+          id: story.id,
+        }
+      })
     } else if (sb_6_3_12) {
       stories = Object.values(sb_6_3_12).map((story) => {
         return {
