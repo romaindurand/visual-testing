@@ -29,7 +29,7 @@
       "iphone7"
     ],
     "stories": {
-      "Delay/foo/bar/Anim": {
+      "Delay/foo/bar/Anim/default": {
         "delay": 1000
       }
     },
