@@ -31,10 +31,10 @@ export default async function startTests() {
     browser,
     delay: config.delay,
   })
-  await compareImages(referencePath, tempPath, diffPath, interactive)
-  await displayDiffs(diffPath, interactive, referencePath, tempPath)
   await browser.close()
   console.log(chalk.blue('Chrome instance closed'))
+  await compareImages(referencePath, tempPath, diffPath, interactive)
+  await displayDiffs(diffPath, interactive, referencePath, tempPath)
 }
 
 async function getStories(page, config) {
