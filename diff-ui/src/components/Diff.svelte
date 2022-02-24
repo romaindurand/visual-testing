@@ -1,10 +1,15 @@
 <script>
   export let diff = null
+  export let onAccept = null
+  export let onReject = null
   let modes = ['diff', 'compare', 'compare-with-diff', 'swipe']
-  let currentMode = modes[2]
+  let currentMode = 'swipe'
   let swipeOpacity = 0.5
-  $: console.log({diff})
-  $: console.log({swipeOpacity})
+  let accepted = false
+  $: {
+    accepted = diff && false
+  }
+
 </script>
 
 {#if currentMode === 'compare-with-diff'}
@@ -57,9 +62,44 @@
   {/each}
 </div>
 
+<div class="validate-container">
+<button class="reject" on:click={onReject}>Reject</button>
+<button
+  class="accept"
+  on:click={() => {
+    if (accepted) {
+      return onAccept()
+    }
+    accepted = true
+  }}
+>{accepted ? 'Confirm ?' : 'Accept'}</button>
+</div>
+
 
 
 <style>
+  .validate-container {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .validate-container button {
+    cursor: pointer;
+  }
+
+  .reject {
+    background-color: tomato;
+  }
+
+  .accept {
+    background-color: lightgreen;
+  }
+
   .modes-container {
     position: absolute;
     top: 0;
@@ -67,7 +107,7 @@
 
   }
   .active {
-    background-color: red;
+    background-color: lightskyblue;
   }
 
   .compare-diff img {
@@ -102,12 +142,12 @@
 
   .slider {
     position: absolute;
-    top: 40px;
+    top: 50px;
     right: 10px;
   }
 
   .slider input {
-    width: 300px;
+    width: 400px;
     padding: 0;
   }
 

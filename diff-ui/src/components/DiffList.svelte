@@ -26,7 +26,7 @@
     margin: 0;
     padding: 0;
     box-shadow: 0 0 5px black;
-    padding: 10px;
+    padding: 20px;
     transform: translateX(-120%);
   }
   .panel {

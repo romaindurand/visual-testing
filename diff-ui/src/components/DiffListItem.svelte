@@ -12,6 +12,7 @@
   li {
     list-style: none;
     cursor: pointer;
+    margin-bottom: 10px;
   }
 
   li:hover {
